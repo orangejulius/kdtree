@@ -17,6 +17,9 @@ int main(int argc, char* argv[])
 		ifstream file(argv[1]);
 		if (file) {
 			int maxlines = 1000000;
+			if (argc > 2) {
+				maxlines = atoi(argv[2]);
+			}
 			for (int i = 0; i < maxlines; i++) {
 				int id;
 				double x, y;
@@ -27,8 +30,9 @@ int main(int argc, char* argv[])
 				tree.insertPoint(Vector2d(x,y), id);
 				ids.push_back(id);
 			}
+			tree.nearestNeighbor(Vector2d(.5,.1));
 		}
-		tree.print();
 	}
+
 	return 0;
 }

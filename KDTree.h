@@ -61,6 +61,17 @@ public:
 		}
 	}
 
+	/**
+	* Find the nearest neighbor of a point
+	* @param point		the point for which to find the nearest neighbor
+	* @return Vector2d	the location of the nearest neighbor of point
+	*/
+	Vector2d nearestNeighbor(Vector2d point) const {
+		Vector2d nn = root->nearestNeighbor(point);
+		cout<<nn<<endl;
+		return nn;
+	}
+
 private:
 	/// the root node of the kd tree
 	KDNode<T>* root;

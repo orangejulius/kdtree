@@ -97,6 +97,41 @@ public:
 		return left;
 	}
 
+	/**
+	 * Perform a recursive search of this node and child nodes.
+	 * Return the nearest neighbor to the given point.
+	 * @param point		the point for which to find the nearest neighbor
+	 * @return Vector2d	the location of the nearest neighbor of point
+	 */
+	Vector2d nearestNeighbor(Vector2d searchPoint, Vector2d best = Vector2d(99999,99999)) const {
+		if ((point - searchPoint).squaredNorm() < (best - searchPoint).squaredNorm()) {
+			best = point;
+		}
+
+		KDNode* nearChild = 0;
+		KDNode* farChild = 0;
+
+		int axis = depth % numAxes;
+		if (searchPoint[axis] > point[axis]) {
+			nearChild = right;
+			farChild = left;
+		} else {
+			nearChild = left;
+			farChild = right;
+		}
+
+		if (nearChild) {
+			best = nearChild->nearestNeighbor(searchPoint, best);
+		}
+
+		double hyperSphereRadius = searchPoint[axis] - point[axis];
+		if (farChild && hyperSphereRadius < (best - searchPoint).norm()) {
+			best = farChild->nearestNeighbor(searchPoint, best);
+		}
+
+		return best;
+	}
+
 private:
 	/// The object stored in this node
 	T data;
