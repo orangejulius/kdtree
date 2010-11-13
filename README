@@ -1,0 +1,10 @@
+kdtree library
+
+This is a small library that implements a kdtree. The main goals are readability, flexibility, and performance (without greatly detracting from the first two goals)
+
+Planned features
+*N-dimentional kdtree (at least 2 and 3 dimensions to start)
+*nearest neighbor search
+*N nearest neighbor search
+*volumetric objects
+*intelligent split heuristic
