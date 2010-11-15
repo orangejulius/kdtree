@@ -2,6 +2,7 @@
 #define KDTREE_H
 
 #include <Eigen/Core>
+#include <Eigen/Array>
 
 #include "KDNode.h"
 
@@ -11,10 +12,12 @@ using Eigen::Vector2d;
  * Class KDTree
  * Represents an entire kd-tree.
  * @tparam T	the type of items stored in nodes of this tree
+ * @tparam numAxes	the number of axes to compare (the number of dimensions in the search space)
  */
-template <class T>
+template <class T, int numAxes=2>
 class KDTree
 {
+	typedef Matrix<double, numAxes, 1> Point;
 public:
 	/**
 	 * Construct a new kd-tree
@@ -23,20 +26,19 @@ public:
 		root = 0;
 		numNodes = 0;
 		maxDepth = 0;
-		numAxes = 2;//for now this only handles the 2D tree case
 	}
 
 	/**
-	 * Insert a 2d point into the kd-tree
-	 * @param newPoint	the 2d point to add
+	 * Insert an N-dimensional point into the kd-tree
+	 * @param newPoint	the N-dimensional point to add
 	 * @param data		the data object to store in the node
 	 */
-	void insertPoint(Vector2d newPoint, T data) {
+	void insertPoint(Point newPoint, T data) {
 		//if the tree already has an element in it, just add the point
 		if (root) {
-			KDNode<T>* currentNode = root;
+			KDNode<T, numAxes>* currentNode = root;
 			int depth = 0;
-			KDNode<T>* newNode = 0;
+			KDNode<T, numAxes>* newNode = 0;
 			while (newNode == 0) {
 				int axis = depth % numAxes;//the axis by which points will be compared
 				if (newPoint[axis] > currentNode->getPoint()[axis]) {
@@ -44,14 +46,14 @@ public:
 					if (currentNode->getRight()) {
 						currentNode = currentNode->getRight();
 					} else {
-						newNode = new KDNode<T>(data, newPoint, numAxes, currentNode);
+						newNode = new KDNode<T, numAxes>(data, newPoint, currentNode);
 						currentNode->setRight(newNode);
 					}
 				} else {
 					if (currentNode->getLeft()) {
 						currentNode = currentNode->getLeft();
 					} else {
-						newNode = new KDNode<T>(data, newPoint, numAxes, currentNode);
+						newNode = new KDNode<T, numAxes>(data, newPoint, currentNode);
 						currentNode->setLeft(newNode);
 					}
 				}
@@ -64,7 +66,7 @@ public:
 			}
 		} else {
 			//otherwise create the root node of the tree
-			root = new KDNode<T>(data, newPoint, numAxes, 0);
+			root = new KDNode<T, numAxes>(data, newPoint, 0);
 		}
 		//keep track of the number of nodes inserted
 		numNodes++;
@@ -86,26 +88,26 @@ public:
 	/**
 	* Find the nearest neighbor of a point
 	* @param point		the point for which to find the nearest neighbor
-	* @return Vector2d	the location of the nearest neighbor of point
+	* @return Point	the location of the nearest neighbor of point
 	*/
-	Vector2d nearestNeighbor(Vector2d point) const {
-		Vector2d nn = root->nearestNeighbor(point);
+	Point nearestNeighbor(Point point) const {
+		//create a "worst possible" best so far nearest neighbor
+		Point p;
+		p.cwise() += 99999;
+		Point nn = root->nearestNeighbor(point,p);
 		cout<<nn<<endl;
 		return nn;
 	}
 
 private:
 	/// the root node of the kd tree
-	KDNode<T>* root;
+	KDNode<T, numAxes>* root;
 
 	/// the total number of nodes in the tree
 	int numNodes;
 
 	/// the maximum depth of the tree
 	int maxDepth;
-
-	/// the number of axes used for comparison in this tree
-	int numAxes;
 };
 
 #endif // KDTREE_H

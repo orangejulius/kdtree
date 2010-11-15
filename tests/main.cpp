@@ -3,6 +3,10 @@
 #include <fstream>
 #include <vector>
 
+#include <Eigen/Core>
+
+using Eigen::Vector2d;
+using Eigen::Vector3d;
 using std::ifstream;
 using std::vector;
 
@@ -32,6 +36,14 @@ int main(int argc, char* argv[])
 			}
 			tree.nearestNeighbor(Vector2d(.5,.1));
 		}
+	} else {
+		//test 3d tree
+		KDTree<int, 3> tree3d;
+		tree3d.insertPoint(Vector3d(1,2,3),1);
+		tree3d.insertPoint(Vector3d(2,3,4),1);
+		tree3d.insertPoint(Vector3d(3,4,5),1);
+		tree3d.print();
+		tree3d.nearestNeighbor(Vector3d(3,3,3));
 	}
 
 	return 0;
