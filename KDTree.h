@@ -46,14 +46,14 @@ public:
 					if (currentNode->getRight()) {
 						currentNode = currentNode->getRight();
 					} else {
-						newNode = new KDNode<T, numAxes>(data, newPoint, currentNode);
+						newNode = new KDNode<T, numAxes>(data, newPoint);
 						currentNode->setRight(newNode);
 					}
 				} else {
 					if (currentNode->getLeft()) {
 						currentNode = currentNode->getLeft();
 					} else {
-						newNode = new KDNode<T, numAxes>(data, newPoint, currentNode);
+						newNode = new KDNode<T, numAxes>(data, newPoint);
 						currentNode->setLeft(newNode);
 					}
 				}
@@ -66,7 +66,7 @@ public:
 			}
 		} else {
 			//otherwise create the root node of the tree
-			root = new KDNode<T, numAxes>(data, newPoint, 0);
+			root = new KDNode<T, numAxes>(data, newPoint);
 		}
 		//keep track of the number of nodes inserted
 		numNodes++;

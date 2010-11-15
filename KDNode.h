@@ -24,9 +24,8 @@ public:
 	* Construct a kd-tree node
 	* @param data	the object to store in this nodes
 	* @param point 	the N-dimensional location of this node
-	* @param parent 	the parent node of this node
 	*/
-	KDNode(T data, Point point, KDNode* parent): data(data), point(point), parent(parent) {
+	KDNode(T data, Point point): data(data), point(point) {
 		left = 0;
 		right = 0;
 	}
@@ -119,9 +118,6 @@ public:
 private:
 	/// The object stored in this node
 	T data;
-
-	/// This node's parent node
-	KDNode* parent;
 
 	/// This node's left child node
 	KDNode* left;
