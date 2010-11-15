@@ -97,12 +97,22 @@ public:
 		return left;
 	}
 
+	/// Set the right child node
+	void setRight(KDNode* newNode) {
+		right = newNode;
+	}
+
+	/// Set the left child node
+	void setLeft(KDNode* newNode) {
+		left = newNode;
+	}
+
 	/**
-	 * Perform a recursive search of this node and child nodes.
-	 * Return the nearest neighbor to the given point.
-	 * @param point		the point for which to find the nearest neighbor
-	 * @return Vector2d	the location of the nearest neighbor of point
-	 */
+	* Perform a recursive search of this node and child nodes.
+	* Return the nearest neighbor to the given point.
+	* @param point		the point for which to find the nearest neighbor
+	* @return Vector2d	the location of the nearest neighbor of point
+	*/
 	Vector2d nearestNeighbor(Vector2d searchPoint, Vector2d best = Vector2d(99999,99999)) const {
 		if ((point - searchPoint).squaredNorm() < (best - searchPoint).squaredNorm()) {
 			best = point;
