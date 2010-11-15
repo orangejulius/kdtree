@@ -109,7 +109,8 @@ public:
 		}
 
 		double hyperSphereRadius = searchPoint[axis] - point[axis];
-		if (farChild && hyperSphereRadius < (best - searchPoint).norm()) {
+		hyperSphereRadius = hyperSphereRadius * hyperSphereRadius;
+		if (farChild && hyperSphereRadius < (best - searchPoint).squaredNorm()) {
 			best = farChild->nearestNeighbor(searchPoint, best);
 		}
 
