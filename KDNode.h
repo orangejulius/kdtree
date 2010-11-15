@@ -32,32 +32,6 @@ public:
 	}
 
 	/**
-	 * Insert a point as this nodes child
-	 * @param point 	the new point to add as a child
-	 * @return KDNode* 	the pointer to the new node
-	 */
-	KDNode* insertPoint(Vector2d newPoint, T payload) {
-		int axis = depth % numAxes;//the axis by which points will be compared
-		if (newPoint[axis] > point[axis]) {
-			//point goes to right node
-			if (right) {
-				return right->insertPoint(newPoint, payload);
-			} else {
-				right = new KDNode<T>(payload, newPoint, depth + 1, numAxes, this);
-				return right;
-			}
-		} else {
-			//point goes to left node
-			if (left) {
-				return left->insertPoint(newPoint, payload);
-			} else {
-				left = new KDNode<T>(payload, newPoint, depth + 1, numAxes, this);
-				return left;
-			}
-		}
-	}
-
-	/**
 	 * Print details about this node
 	 * @param recursive	if true, print child nodes using in order traversal
 	 */

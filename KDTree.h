@@ -34,11 +34,33 @@ public:
 	void insertPoint(Vector2d newPoint, T data) {
 		//if the tree already has an element in it, just add the point
 		if (root) {
-			KDNode<T>* newnode = root->insertPoint(newPoint, data);
+			KDNode<T>* currentNode = root;
+			int depth = 0;
+			KDNode<T>* newNode = 0;
+			while (newNode == 0) {
+				int axis = depth % numAxes;//the axis by which points will be compared
+				if (newPoint[axis] > currentNode->getPoint()[axis]) {
+					//point goes to right node
+					if (currentNode->getRight()) {
+						currentNode = currentNode->getRight();
+					} else {
+						newNode = new KDNode<T>(data, newPoint, depth + 1, numAxes, currentNode);
+						currentNode->setRight(newNode);
+					}
+				} else {
+					if (currentNode->getLeft()) {
+						currentNode = currentNode->getLeft();
+					} else {
+						newNode = new KDNode<T>(data, newPoint, depth + 1, numAxes, currentNode);
+						currentNode->setLeft(newNode);
+					}
+				}
+				depth++;
+			}
 
 			//keep track of the max depth
-			if (newnode->getDepth() > maxDepth) {
-				maxDepth = newnode->getDepth();
+			if (depth > maxDepth) {
+				maxDepth = depth;
 			}
 		} else {
 			//otherwise create the root node of the tree
