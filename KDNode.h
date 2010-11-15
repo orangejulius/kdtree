@@ -22,23 +22,23 @@ public:
 	* Construct a kd-tree node
 	* @param data	the object to store in this node
 	* @param point 	the 2d location of this node
-	* @param depth 	the depth of this node in the tree
 	* @param numAxes 	the number of axes in this tree (always 2 currently)
 	* @param parent 	the parent node of this node
 	*/
-	KDNode(T data, Vector2d point, unsigned depth, unsigned numAxes, KDNode* parent): data(data), point(point), depth(depth), numAxes(numAxes), parent(parent) {
+	KDNode(T data, Vector2d point, unsigned numAxes, KDNode* parent): data(data), point(point), numAxes(numAxes), parent(parent) {
 		left = 0;
 		right = 0;
 	}
 
 	/**
 	 * Print details about this node
+	 * @param depth		the depth at this level
 	 * @param recursive	if true, print child nodes using in order traversal
 	 */
-	void print(bool recursive = true) const {
-		if (recursive && left) left->print();
+	void print(int depth = 0, bool recursive = true) const {
+		if (recursive && left) left->print(depth + 1);
 		cout << "Point: "<<point[0]<<","<<point[1]<<" Depth: "<<depth<<endl;
-		if (recursive && right) right->print();
+		if (recursive && right) right->print(depth + 1);
 	}
 
 	/// Return true if this node is a leaf (has no children)
@@ -54,11 +54,6 @@ public:
 	/// Returns the coordinates of this node
 	Vector2d getPoint() const {
 		return point;
-	}
-
-	/// Returns the depth of this node
-	int getDepth() const {
-		return depth;
 	}
 
 	/// Returns the right child pointer of this node
@@ -85,9 +80,10 @@ public:
 	* Perform a recursive search of this node and child nodes.
 	* Return the nearest neighbor to the given point.
 	* @param point		the point for which to find the nearest neighbor
+	* @param depth		the current depth of the search
 	* @return Vector2d	the location of the nearest neighbor of point
 	*/
-	Vector2d nearestNeighbor(Vector2d searchPoint, Vector2d best = Vector2d(99999,99999)) const {
+	Vector2d nearestNeighbor(Vector2d searchPoint, int depth = 0, Vector2d best = Vector2d(99999,99999)) const {
 		if ((point - searchPoint).squaredNorm() < (best - searchPoint).squaredNorm()) {
 			best = point;
 		}
@@ -105,13 +101,13 @@ public:
 		}
 
 		if (nearChild) {
-			best = nearChild->nearestNeighbor(searchPoint, best);
+			best = nearChild->nearestNeighbor(searchPoint, depth + 1, best);
 		}
 
 		double hyperSphereRadius = searchPoint[axis] - point[axis];
 		hyperSphereRadius = hyperSphereRadius * hyperSphereRadius;
 		if (farChild && hyperSphereRadius < (best - searchPoint).squaredNorm()) {
-			best = farChild->nearestNeighbor(searchPoint, best);
+			best = farChild->nearestNeighbor(searchPoint, depth + 1, best);
 		}
 
 		return best;
@@ -120,9 +116,6 @@ public:
 private:
 	/// The object stored in this node
 	T data;
-
-	/// The depth of this node in the tree
-	int depth;
 
 	/// The number of axes used for comparison
 	int numAxes;
