@@ -1,14 +1,34 @@
 #include "KDTree.h"
 
-int main()
+#include <fstream>
+#include <vector>
+
+using std::ifstream;
+using std::vector;
+
+int main(int argc, char* argv[])
 {
+	vector<int> ids;
+
+	int maxlines = 1000000;
 	KDTree<int> tree;
-	tree.insertPoint(Vector2d(7,2), 1);
-	tree.insertPoint(Vector2d(9,6), 2);
-	tree.insertPoint(Vector2d(5,4), 3);
-	tree.insertPoint(Vector2d(2,3), 4);
-	tree.insertPoint(Vector2d(8,1), 5);
-	tree.insertPoint(Vector2d(4,7), 6);
-	tree.print();
+
+	if (argc > 1) {
+		ifstream file(argv[1]);
+		if (file) {
+			int maxlines = 1000000;
+			for (int i = 0; i < maxlines; i++) {
+				int id;
+				double x, y;
+				file>>id>>x>>y;
+				if (file.eof()) {
+					break;
+				}
+				tree.insertPoint(Vector2d(x,y), id);
+				ids.push_back(id);
+			}
+		}
+		tree.print();
+	}
 	return 0;
 }
