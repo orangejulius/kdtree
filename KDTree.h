@@ -3,36 +3,67 @@
 
 #include <Eigen/Core>
 
-using Eigen::Vector2d;
+#include "KDNode.h"
 
-class KDNode;
+using Eigen::Vector2d;
 
 /**
  * Class KDTree
  * Represents an entire kd-tree.
+ * @tparam T	the type of items stored in nodes of this tree
  */
+template <class T>
 class KDTree
 {
 public:
 	/**
 	 * Construct a new kd-tree
 	 */
-	KDTree();
+	KDTree() {
+		root = 0;
+		numNodes = 0;
+		maxDepth = 0;
+		numAxes = 2;//for now this only handles the 2D tree case
+	}
 
 	/**
 	 * Insert a 2d point into the kd-tree
 	 * @param newPoint	the 2d point to add
+	 * @param data		the data object to store in the node
 	 */
-	void insertPoint(Vector2d newPoint);
+	void insertPoint(Vector2d newPoint, T data) {
+		//if the tree already has an element in it, just add the point
+		if (root) {
+			KDNode<T>* newnode = root->insertPoint(newPoint, data);
+
+			//keep track of the max depth
+			if (newnode->getDepth() > maxDepth) {
+				maxDepth = newnode->getDepth();
+			}
+		} else {
+			//otherwise create the root node of the tree
+			root = new KDNode<T>(data, newPoint, 0, numAxes, 0);
+		}
+		//keep track of the number of nodes inserted
+		numNodes++;
+	}
 
 	/**
 	 * Print details about the entire tree
 	 */
-	void print() const;
+	void print() const {
+		if (root) {
+			root->print();
+			cout << "Total nodes: "<<numNodes<<endl;
+			cout << "Max depth: " << maxDepth << endl;
+		} else {
+			cout << "Tree is empty\n";
+		}
+	}
 
 private:
 	/// the root node of the kd tree
-	KDNode* root;
+	KDNode<T>* root;
 
 	/// the total number of nodes in the tree
 	int numNodes;
