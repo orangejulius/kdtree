@@ -4,6 +4,8 @@
 #include <Eigen/Core>
 #include <iostream>
 
+#include "NeighborList.h"
+
 using std::cout;
 using std::endl;
 
@@ -80,15 +82,12 @@ public:
 	/**
 	* Perform a recursive search of this node and child nodes.
 	* Return the nearest neighbor to the given point.
+	* @param[in,out] neighborList		the list of the current n best neighbors
 	* @param searchPoint		the point for which to find the nearest neighbor
 	* @param depth		the current depth of the search
-	* @param best	the best match so farChild
-	* @return Point	the location of the nearest neighbor of searchPoint
 	*/
-	Point nearestNeighbor(Point searchPoint,  Point best, int depth = 0) const {
-		if ((point - searchPoint).squaredNorm() < (best - searchPoint).squaredNorm()) {
-			best = point;
-		}
+	void nearestNeighbor(NeighborList<KDNode<T, numAxes>* >& neighborList, Point searchPoint, int depth = 0) {
+		neighborList.testNeighbor(this, (point - searchPoint).squaredNorm());
 
 		KDNode* nearChild = 0;
 		KDNode* farChild = 0;
@@ -103,16 +102,14 @@ public:
 		}
 
 		if (nearChild) {
-			best = nearChild->nearestNeighbor(searchPoint, best, depth + 1);
+			nearChild->nearestNeighbor(neighborList, searchPoint, depth + 1);
 		}
 
 		double hyperSphereRadius = searchPoint[axis] - point[axis];
 		hyperSphereRadius = hyperSphereRadius * hyperSphereRadius;
-		if (farChild && hyperSphereRadius < (best - searchPoint).squaredNorm()) {
-			best = farChild->nearestNeighbor(searchPoint, best, depth + 1);
+		if (farChild && hyperSphereRadius < neighborList.getBiggestDistance()) {
+			farChild->nearestNeighbor(neighborList, searchPoint, depth + 1);
 		}
-
-		return best;
 	}
 
 private:

@@ -3,10 +3,12 @@
 
 #include <Eigen/Core>
 #include <Eigen/Array>
+#include <list>
 
 #include "KDNode.h"
 
 using Eigen::Vector2d;
+using std::list;
 
 /**
  * Class KDTree
@@ -86,17 +88,17 @@ public:
 	}
 
 	/**
-	* Find the nearest neighbor of a point
-	* @param point		the point for which to find the nearest neighbor
-	* @return Point	the location of the nearest neighbor of point
+	* Find the n nearest neighbors of a point.
+	* For a point already in the tree, the 1st nearest neighbor is always that point
+	* @param point		the point for which to find the nearest neighbors
+	* @param numNeighbors	the number of neighbors to retrieve.
+	* @return list<KDNode<T, numAxes>* >	a list of the n nearest neighbor KDNodes
 	*/
-	Point nearestNeighbor(Point point) const {
-		//create a "worst possible" best so far nearest neighbor
-		Point p;
-		p.cwise() += 99999;
-		Point nn = root->nearestNeighbor(point,p);
-		cout<<nn<<endl;
-		return nn;
+	list<KDNode<T, numAxes>* > nearestNeighbor(Point point, unsigned int numNeighbors = 1) {
+		NeighborList<KDNode<T, numAxes>* > neighborList(numNeighbors);
+		root->nearestNeighbor(neighborList, point);
+
+		return neighborList.getList();
 	}
 
 private:

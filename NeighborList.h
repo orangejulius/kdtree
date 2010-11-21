@@ -40,6 +40,7 @@ public:
 
 	/**
 	 * Get the list of nearest neighbors.
+	 * This resets the stored list of nearest neighbors.
 	 * @return list<T> the ordered list of nearest neighbors
 	 */
 	list<T> getList() {

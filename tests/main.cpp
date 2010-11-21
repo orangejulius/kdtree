@@ -43,7 +43,12 @@ int main(int argc, char* argv[])
 		tree3d.insertPoint(Vector3d(2,3,4),1);
 		tree3d.insertPoint(Vector3d(3,4,5),1);
 		tree3d.print();
-		tree3d.nearestNeighbor(Vector3d(3,3,3));
+		list<KDNode<int, 3>* > neighbors = tree3d.nearestNeighbor(Vector3d(3,3,3),2);
+		list<KDNode<int, 3>* >::iterator it;
+		cout<<"nearest 2 neighbors\n";
+		for (it = neighbors.begin(); it != neighbors.end(); it++) {
+			(*it)->print(0, false);
+		}
 	}
 
 	return 0;
