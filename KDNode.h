@@ -1,15 +1,13 @@
 #ifndef KDNODE_H
 #define KDNODE_H
 
-#include <Eigen/Core>
 #include <iostream>
 
+#include "Point.h"
 #include "NeighborList.h"
 
 using std::cout;
 using std::endl;
-
-using Eigen::Matrix;
 
 /**
  * Class KDNode
@@ -20,7 +18,6 @@ using Eigen::Matrix;
 template <class T, int numAxes>
 class KDNode
 {
-	typedef Matrix<double, numAxes, 1> Point;
 public:
 	/**
 	* Construct a kd-tree node

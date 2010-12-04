@@ -1,13 +1,10 @@
 #ifndef KDTREE_H
 #define KDTREE_H
 
-#include <Eigen/Core>
-#include <Eigen/Array>
 #include <list>
 
 #include "KDNode.h"
 
-using Eigen::Vector2d;
 using std::list;
 
 /**
@@ -19,7 +16,6 @@ using std::list;
 template <class T, int numAxes=2>
 class KDTree
 {
-	typedef Matrix<double, numAxes, 1> Point;
 public:
 	/**
 	 * Construct a new kd-tree
