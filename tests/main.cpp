@@ -1,18 +1,15 @@
 #include "KDTree.h"
 
+#include <cstdlib>
 #include <fstream>
 #include <vector>
 
-#include <Eigen/Core>
-
-using Eigen::Vector2d;
-using Eigen::Vector3d;
 using std::ifstream;
 using std::vector;
 
 struct Item
 {
-	Vector2d point;
+	Point point;
 	int id;
 };
 
@@ -36,14 +33,14 @@ int main(int argc, char* argv[])
 				file>>id>>x>>y;
 				Item item;
 				item.id = id;
-				item.point = Vector2d(x,y);
+				item.point = Point(x,y);
 				if (file.eof()) {
 					break;
 				}
 				tree.insertPoint(item.point, item.id);
 				items.push_back(item);
 			}
-			tree.nearestNeighbor(Vector2d(.5,.1));
+			tree.nearestNeighbor(Point(.5,.1));
 		}
 
 		vector<Item>::iterator itemIt;
@@ -60,22 +57,6 @@ int main(int argc, char* argv[])
 			}
 			cout<<endl;
 		}
-	} else {
-		//test 3d tree
-		KDTree<int, 3> tree3d;
-		tree3d.insertPoint(Vector3d(2,2,3),1);
-		tree3d.insertPoint(Vector3d(2,3,4),1);
-		tree3d.insertPoint(Vector3d(3,4,5),1);
-		tree3d.print();
-		tree3d.nearestNeighbor(Vector3d(3,3,3),3);
-
-		list<KDNode<int, 3>* > neighborList = tree3d.nearestNeighbor(Vector3d(3,3,3),3);
-		list<KDNode<int, 3>* >::iterator it;
-		cout<<"Size of list: "<<neighborList.size()<<endl;
-		for (it = neighborList.begin(); it != neighborList.end(); it++) {
-			cout<<(*it)->getPoint()<<endl;
-		}
 	}
-
 	return 0;
 }
