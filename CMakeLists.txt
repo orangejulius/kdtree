@@ -4,11 +4,8 @@ project(kdtree)
 
 set(CMAKE_MODULE_PATH ${kdtree_SOURCE_DIR}/cmake/)
 
-find_package(Eigen2 REQUIRED)
-
 include_directories(
-	${kdtree_SOURCE_DIR}
-	${EIGEN2_INCLUDE_DIR})
+	${kdtree_SOURCE_DIR})
 
 add_definitions(-O2 -ggdb)
 
