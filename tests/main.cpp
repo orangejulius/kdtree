@@ -1,20 +1,9 @@
 #include "KDTree.h"
 
-#include <fstream>
-#include <vector>
-
 #include <Eigen/Core>
 
-using Eigen::Vector2d;
 using Eigen::Vector3d;
-using std::ifstream;
 using std::vector;
-
-struct Item
-{
-	Vector2d point;
-	int id;
-};
 
 int main(int argc, char* argv[])
 {
