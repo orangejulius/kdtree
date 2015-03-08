@@ -12,4 +12,5 @@ include_directories(
 
 add_definitions(-O2 -ggdb)
 
-add_executable(kdtreeTest tests/main.cpp)
+add_executable(kdtreeTest test/main.cpp)
+target_link_libraries(kdtreeTest cpptest)
