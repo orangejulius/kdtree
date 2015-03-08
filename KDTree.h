@@ -30,6 +30,10 @@ public:
 		maxDepth = 0;
 	}
 
+	int getMaxDepth() {
+		return maxDepth;
+	}
+
 	/**
 	 * Insert an N-dimensional point into the kd-tree
 	 * @param newPoint	the N-dimensional point to add
