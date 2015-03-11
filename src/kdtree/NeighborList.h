@@ -2,6 +2,7 @@
 #define NEIGHBORLIST_H
 
 #include <list>
+#include <limits>
 #include <queue>
 
 using std::list;
@@ -60,7 +61,11 @@ namespace KDTree {
 			 * @return double	the distance to this neighbor
 			 */
 			double getBiggestDistance() const {
-				return queue.top().priority;
+				if (queue.size() == 0) {
+					return std::numeric_limits<double>::infinity();
+				} else {
+					return queue.top().priority;
+				}
 			}
 
 		private:
