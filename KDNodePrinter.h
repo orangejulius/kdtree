@@ -14,6 +14,15 @@ class KDNodePrinter {
 				print(*node.getLeft(), out);
 			}
 
+			print_current(node, out);
+
+			if (node.getRight()) {
+				print(*node.getRight(), out);
+			}
+		}
+
+	private:
+		void print_current(KDNode<T, numAxes> node, std::ostream &out) {
 			out<<"(";
 
 			for (int i = 0; i < numAxes; i++) {
@@ -24,10 +33,6 @@ class KDNodePrinter {
 			}
 			out<<") ";
 			out<<node.getData()<<endl;
-
-			if (node.getRight()) {
-				print(*node.getRight(), out);
-			}
 		}
 };
 
