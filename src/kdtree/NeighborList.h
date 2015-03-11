@@ -31,11 +31,11 @@ namespace KDTree {
 			 * do nothing if false.
 			 *
 			 * @param	newNeighbor	the potential new neighbor
-			 * @param	distance	the distance to the new neighbor
+			 * @param	distanceSquared	the squared distance to the new neighbor
 			 */
-			void testNeighbor(T newNeighbor, double distance) {
-				if (queue.size() < maxSize || distance < getLargestDistanceSquared()) {
-					QueueItem newItem(distance, newNeighbor);
+			void testNeighbor(T newNeighbor, double distanceSquared) {
+				if (queue.size() < maxSize || distanceSquared < getLargestDistanceSquared()) {
+					QueueItem newItem(distanceSquared, newNeighbor);
 					queue.push(newItem);
 					if (queue.size() > maxSize) {
 						queue.pop();
@@ -61,8 +61,8 @@ namespace KDTree {
 			}
 
 			/**
-			 * Get the distance of the least nearest neighbor found so far
-			 * @return double	the distance to this neighbor
+			 * Get the squared distance of the least nearest neighbor found so far
+			 * @return double	the squared distance to this neighbor
 			 */
 			double getLargestDistanceSquared() const {
 				if (queue.size() == 0) {
