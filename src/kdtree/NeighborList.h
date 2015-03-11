@@ -46,12 +46,14 @@ namespace KDTree {
 			 * This resets the stored list of nearest neighbors.
 			 * @return list<T> the ordered list of nearest neighbors
 			 */
-			list<T> getList() {
+			list<T> getList() const {
 				list<T> neighborList;
 
-				while (!queue.empty()) {
-					neighborList.push_front(queue.top().data);
-					queue.pop();
+				priority_queue<QueueItem> queueCopy(queue);
+
+				while (!queueCopy.empty()) {
+					neighborList.push_front(queueCopy.top().data);
+					queueCopy.pop();
 				}
 				return neighborList;
 			}
