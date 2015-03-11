@@ -3,12 +3,13 @@
 
 #include <iostream>
 
-#include "KDNode.h"
+#include "PointSplitNode.h"
 
-template <class T, int numAxes>
-class KDNodePrinter {
-	public:
-		void print(KDNode<T, numAxes>* node, std::ostream &out) {
+namespace KDTree {
+	template <class T, int numAxes>
+	class PointSplitNodePrinter {
+		public:
+		void print(PointSplitNode<T, numAxes>* node, std::ostream &out) {
 			if (node->getLeft()) {
 				print(node->getLeft(), out);
 			}
@@ -20,8 +21,8 @@ class KDNodePrinter {
 			}
 		}
 
-	private:
-		void print_current(KDNode<T, numAxes>* node, std::ostream &out) {
+		private:
+		void print_current(PointSplitNode<T, numAxes>* node, std::ostream &out) {
 			out<<"(";
 
 			for (int i = 0; i < numAxes; i++) {
@@ -33,6 +34,7 @@ class KDNodePrinter {
 			out<<") ";
 			out<<node->getData()<<endl;
 		}
-};
+	};
+}
 
 #endif

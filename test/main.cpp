@@ -1,13 +1,13 @@
-#include "test/KDTreeTest.h"
-#include "test/KDNodePrinterTest.h"
-#include "test/KDNodeTest.h"
+#include "test/PointSplitNodeTest.h"
+#include "test/PointSplitNodePrinterTest.h"
+
+using namespace KDTree;
 
 int main() {
 	Test::Suite ts;
 
-	ts.add(std::auto_ptr<Test::Suite>(new KDTreeTest));
-	ts.add(std::auto_ptr<Test::Suite>(new KDNodePrinterTest));
-	ts.add(std::auto_ptr<Test::Suite>(new KDNodeTest));
+	ts.add(std::auto_ptr<Test::Suite>(new PointSplitNodePrinterTest));
+	ts.add(std::auto_ptr<Test::Suite>(new PointSplitNodeTest));
 
 	Test::TextOutput output(Test::TextOutput::Verbose);
 	return ts.run(output);
