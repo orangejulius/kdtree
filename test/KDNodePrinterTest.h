@@ -17,7 +17,7 @@ class KDNodePrinterTest : public Test::Suite {
 			KDNodePrinter<int, 2> printer;
 			std::ostringstream out;
 
-			printer.print(node, out);
+			printer.print(&node, out);
 
 			TEST_ASSERT(out.str() == "(1, 2) 5\n");
 		};
@@ -29,7 +29,7 @@ class KDNodePrinterTest : public Test::Suite {
 			std::ostringstream out;
 
 			root.setLeft(&child);
-			printer.print(root, out);
+			printer.print(&root, out);
 
 			TEST_ASSERT(out.str() == "(0, 9) 10\n(1, 2) 5\n");
 		}
@@ -41,7 +41,7 @@ class KDNodePrinterTest : public Test::Suite {
 			std::ostringstream out;
 
 			root.setRight(&child);
-			printer.print(root, out);
+			printer.print(&root, out);
 
 			TEST_ASSERT(out.str() == "(1, 2) 5\n(6, 3) 60\n");
 		}
