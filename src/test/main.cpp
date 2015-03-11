@@ -1,5 +1,5 @@
-#include "test/PointSplitNodeTest.h"
-#include "test/PointSplitNodePrinterTest.h"
+#include "test/kdtree/PointSplitNodeTest.h"
+#include "test/kdtree/PointSplitNodePrinterTest.h"
 
 using namespace KDTree;
 
