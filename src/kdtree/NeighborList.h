@@ -34,10 +34,12 @@ namespace KDTree {
 			 * @param	distance	the distance to the new neighbor
 			 */
 			void testNeighbor(T newNeighbor, double distance) {
-				QueueItem newItem(distance, newNeighbor);
-				queue.push(newItem);
-				if (queue.size() > maxSize) {
-					queue.pop();
+				if (queue.size() < maxSize || distance < getLargestDistanceSquared()) {
+					QueueItem newItem(distance, newNeighbor);
+					queue.push(newItem);
+					if (queue.size() > maxSize) {
+						queue.pop();
+					}
 				}
 			}
 
