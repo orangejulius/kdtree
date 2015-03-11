@@ -60,7 +60,7 @@ namespace KDTree {
 			 * Get the distance of the least nearest neighbor found so far
 			 * @return double	the distance to this neighbor
 			 */
-			double getBiggestDistance() const {
+			double getLargestDistanceSquared() const {
 				if (queue.size() == 0) {
 					return std::numeric_limits<double>::infinity();
 				} else {
