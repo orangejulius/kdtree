@@ -15,7 +15,6 @@ class KDNodePrinterTest : public Test::Suite {
 		void single_node_prints_point_and_data() {
 			KDNode<int, 2> node(5, Vector2d(1, 2));
 			KDNodePrinter<int, 2> printer;
-
 			std::ostringstream out;
 
 			printer.print(node, out);

@@ -7,7 +7,6 @@
 
 template <class T, int numAxes>
 class KDNodePrinter {
-
 	public:
 		void print(KDNode<T, numAxes> node, std::ostream &out) {
 			if (node.getLeft()) {
