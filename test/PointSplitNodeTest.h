@@ -1,6 +1,6 @@
 #include <cpptest.h>
 
-#include "PointSplitNode.h"
+#include "kdtree/PointSplitNode.h"
 
 using Eigen::Vector2d;
 

@@ -1,7 +1,7 @@
 #include <cpptest.h>
 #include <sstream>
 
-#include "PointSplitNodePrinter.h"
+#include "kdtree/PointSplitNodePrinter.h"
 
 using Eigen::Vector2d;
 

@@ -8,6 +8,7 @@ find_package(Eigen2 REQUIRED)
 
 include_directories(
 	${kdtree_SOURCE_DIR}
+	${kdtree_SOURCE_DIR}/src
 	${EIGEN2_INCLUDE_DIR})
 
 add_definitions(-O2 -ggdb)

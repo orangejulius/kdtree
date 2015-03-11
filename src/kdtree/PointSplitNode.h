@@ -4,7 +4,7 @@
 #include <Eigen/Core>
 #include <iostream>
 
-#include "NeighborList.h"
+#include "kdtree/NeighborList.h"
 
 using std::cout;
 using std::endl;
