@@ -18,7 +18,6 @@ class KDNodePrinterTest : public Test::Suite {
 
 			printer.print(node, out);
 
-			TEST_ASSERT(out.str() == "1\n2\n5\n");
+			TEST_ASSERT(out.str() == "(1, 2) 5\n");
 		};
-
 };

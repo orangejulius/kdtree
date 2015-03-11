@@ -10,7 +10,16 @@ class KDNodePrinter {
 
 	public:
 		void print(KDNode<T, numAxes> node, std::ostream &out) {
-			out<<node.getPoint()<<endl<<node.getData()<<endl;
+			out<<"(";
+
+			for (int i = 0; i < numAxes; i++) {
+				out<<node.getPoint()[i];
+				if (i + 1 < numAxes) {
+					out<<", ";
+				}
+			}
+			out<<") ";
+			out<<node.getData()<<endl;
 		}
 };
 
