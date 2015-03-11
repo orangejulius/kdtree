@@ -80,19 +80,6 @@ public:
 	}
 
 	/**
-	 * Print details about the entire tree
-	 */
-	void print() const {
-		if (root) {
-			root->print();
-			cout << "Total nodes: "<<numNodes<<endl;
-			cout << "Max depth: " << maxDepth << endl;
-		} else {
-			cout << "Tree is empty\n";
-		}
-	}
-
-	/**
 	* Find the n nearest neighbors of a point.
 	* For a point already in the tree, the 1st nearest neighbor is always that point
 	* @param point		the point for which to find the nearest neighbors
