@@ -68,35 +68,36 @@ namespace KDTree {
 				if (queue.size() == 0) {
 					return std::numeric_limits<double>::infinity();
 				} else {
-					return queue.top().priority;
+					return queue.top().distanceSquared;
 				}
 			}
 
 		private:
 			/**
 			 * Class QueueItem
-			 * A private class to store data with a priority in a queue
+			 * A private class to store NeighborList items
+			 * The priority is determined by the squared distance from the search point
 			 */
 			class QueueItem {
 				public:
 					/**
 					 * Construct a QueueItem
-					 * @param priority	the priority of this item in the queue
+					 * @param distanceSquared	the distance from this point to the search point
 					 * @param data		the associated data
 					 */
-					QueueItem(double priority, T data): priority(priority), data(data) {}
+					QueueItem(double distanceSquared, T data): distanceSquared(distanceSquared), data(data) {}
 
 					/**
 					 * Compare two QueueItems
 					 * @param q	another QueueItem to compare
-					 * @return bool	true if this item has the lower priority
+					 * @return bool	true if this item has the lower distance squared
 					 */
 					bool operator<(const QueueItem& q) const {
-						return priority < q.priority;
+						return distanceSquared < q.distanceSquared;
 					}
 
-					/// The priority of this QueueItem
-					double priority;
+					/// The distance from this item to the search point
+					double distanceSquared;
 
 					/// The data associated with this QueueItem
 					T data;
