@@ -32,18 +32,6 @@ public:
 		right = 0;
 	}
 
-	/**
-	 * Print details about this node
-	 * @param depth		the depth at this level
-	 * @param recursive	if true, print child nodes using in order traversal
-	 */
-	void print(int depth = 0, bool recursive = true) const {
-		if (recursive && left) left->print(depth + 1);
-		cout << "Point: Depth: "<<depth<<endl;
-		cout << point <<endl;
-		if (recursive && right) right->print(depth + 1);
-	}
-
 	/// Return true if this node is a leaf (has no children)
 	bool isLeaf() const {
 		return (left == 0) && (right == 0);
