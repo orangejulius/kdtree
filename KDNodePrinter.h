@@ -10,6 +10,10 @@ class KDNodePrinter {
 
 	public:
 		void print(KDNode<T, numAxes> node, std::ostream &out) {
+			if (node.getLeft()) {
+				print(*node.getLeft(), out);
+			}
+
 			out<<"(";
 
 			for (int i = 0; i < numAxes; i++) {
@@ -20,6 +24,10 @@ class KDNodePrinter {
 			}
 			out<<") ";
 			out<<node.getData()<<endl;
+
+			if (node.getRight()) {
+				print(*node.getRight(), out);
+			}
 		}
 };
 
