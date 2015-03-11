@@ -30,6 +30,10 @@ public:
 		maxDepth = 0;
 	}
 
+	int getMaxDepth() {
+		return maxDepth;
+	}
+
 	/**
 	 * Insert an N-dimensional point into the kd-tree
 	 * @param newPoint	the N-dimensional point to add
@@ -69,6 +73,7 @@ public:
 		} else {
 			//otherwise create the root node of the tree
 			root = new KDNode<T, numAxes>(data, newPoint);
+			maxDepth = 1;
 		}
 		//keep track of the number of nodes inserted
 		numNodes++;
