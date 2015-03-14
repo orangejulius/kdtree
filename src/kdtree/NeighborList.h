@@ -65,7 +65,7 @@ namespace KDTree {
 			 * @return double	the squared distance to this neighbor
 			 */
 			double getLargestDistanceSquared() const {
-				if (queue.size() == 0) {
+				if (queue.size() < maxSize) {
 					return std::numeric_limits<double>::infinity();
 				} else {
 					return queue.top().distanceSquared;

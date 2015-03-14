@@ -40,7 +40,7 @@ namespace KDTree {
 
 			void search_traverses_all_nodes_up_to_search_limit() {
 				PointSplitNode<int, 2> node(1, Vector2d(3, 5));
-				PointSplitNode<int, 2> child(2, Vector2d(4, 5));
+				PointSplitNode<int, 2> child(2, Vector2d(4.0, 5.5));
 				PointSplitNode<int, 2> child2(3, Vector2d(1, 1));
 				PointSplitNode<int, 2> child3(4, Vector2d(2, 3));
 				node.setRight(&child);
@@ -48,11 +48,11 @@ namespace KDTree {
 				child2.setRight(&child3);
 				NearestNeighborSearch<int, 2> search;
 				std::list<int> expected;
-				expected.push_back(2);
-				expected.push_back(1);
 				expected.push_back(4);
+				expected.push_back(1);
+				expected.push_back(2);
 
-				std::list<int> results = search.search(node, Vector2d(4, 4), 3);
+				std::list<int> results = search.search(node, Vector2d(4, 3), 3);
 
 				TEST_ASSERT(results == expected);
 			}
