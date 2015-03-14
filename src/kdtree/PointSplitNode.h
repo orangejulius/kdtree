@@ -69,39 +69,6 @@ namespace KDTree {
 			left = newNode;
 		}
 
-		/**
-		 * Perform a recursive search of this node and child nodes.
-		 * Return the nearest neighbor to the given point.
-		 * @param[in,out] neighborList		the list of the current n best neighbors
-		 * @param searchPoint		the point for which to find the nearest neighbor
-		 * @param depth		the current depth of the search
-		 */
-		void nearestNeighbor(NeighborList<PointSplitNode<T, numAxes>* >& neighborList, Point searchPoint, int depth = 0) {
-			neighborList.testNeighbor(this, (point - searchPoint).squaredNorm());
-
-			PointSplitNode* nearChild = 0;
-			PointSplitNode* farChild = 0;
-
-			int axis = depth % numAxes;
-			if (searchPoint[axis] > point[axis]) {
-				nearChild = right;
-				farChild = left;
-			} else {
-				nearChild = left;
-				farChild = right;
-			}
-
-			if (nearChild) {
-				nearChild->nearestNeighbor(neighborList, searchPoint, depth + 1);
-			}
-
-			double hyperSphereRadius = searchPoint[axis] - point[axis];
-			hyperSphereRadius = hyperSphereRadius * hyperSphereRadius;
-			if (farChild && hyperSphereRadius < neighborList.getBiggestDistance()) {
-				farChild->nearestNeighbor(neighborList, searchPoint, depth + 1);
-			}
-		}
-
 		private:
 		/// The object stored in this node
 		T data;

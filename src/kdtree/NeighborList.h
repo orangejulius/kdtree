@@ -2,6 +2,7 @@
 #define NEIGHBORLIST_H
 
 #include <list>
+#include <limits>
 #include <queue>
 
 using std::list;
@@ -30,13 +31,15 @@ namespace KDTree {
 			 * do nothing if false.
 			 *
 			 * @param	newNeighbor	the potential new neighbor
-			 * @param	distance	the distance to the new neighbor
+			 * @param	distanceSquared	the squared distance to the new neighbor
 			 */
-			void testNeighbor(T newNeighbor, double distance) {
-				QueueItem newItem(distance, newNeighbor);
-				queue.push(newItem);
-				if (queue.size() > maxSize) {
-					queue.pop();
+			void testNeighbor(T newNeighbor, double distanceSquared) {
+				if (queue.size() < maxSize || distanceSquared < getLargestDistanceSquared()) {
+					QueueItem newItem(distanceSquared, newNeighbor);
+					queue.push(newItem);
+					if (queue.size() > maxSize) {
+						queue.pop();
+					}
 				}
 			}
 
@@ -45,49 +48,56 @@ namespace KDTree {
 			 * This resets the stored list of nearest neighbors.
 			 * @return list<T> the ordered list of nearest neighbors
 			 */
-			list<T> getList() {
+			list<T> getList() const {
 				list<T> neighborList;
 
-				while (!queue.empty()) {
-					neighborList.push_front(queue.top().data);
-					queue.pop();
+				priority_queue<QueueItem> queueCopy(queue);
+
+				while (!queueCopy.empty()) {
+					neighborList.push_front(queueCopy.top().data);
+					queueCopy.pop();
 				}
 				return neighborList;
 			}
 
 			/**
-			 * Get the distance of the least nearest neighbor found so far
-			 * @return double	the distance to this neighbor
+			 * Get the squared distance of the least nearest neighbor found so far
+			 * @return double	the squared distance to this neighbor
 			 */
-			double getBiggestDistance() const {
-				return queue.top().priority;
+			double getLargestDistanceSquared() const {
+				if (queue.size() < maxSize) {
+					return std::numeric_limits<double>::infinity();
+				} else {
+					return queue.top().distanceSquared;
+				}
 			}
 
 		private:
 			/**
 			 * Class QueueItem
-			 * A private class to store data with a priority in a queue
+			 * A private class to store NeighborList items
+			 * The priority is determined by the squared distance from the search point
 			 */
 			class QueueItem {
 				public:
 					/**
 					 * Construct a QueueItem
-					 * @param priority	the priority of this item in the queue
+					 * @param distanceSquared	the distance from this point to the search point
 					 * @param data		the associated data
 					 */
-					QueueItem(double priority, T data): priority(priority), data(data) {}
+					QueueItem(double distanceSquared, T data): distanceSquared(distanceSquared), data(data) {}
 
 					/**
 					 * Compare two QueueItems
 					 * @param q	another QueueItem to compare
-					 * @return bool	true if this item has the lower priority
+					 * @return bool	true if this item has the lower distance squared
 					 */
 					bool operator<(const QueueItem& q) const {
-						return priority < q.priority;
+						return distanceSquared < q.distanceSquared;
 					}
 
-					/// The priority of this QueueItem
-					double priority;
+					/// The distance from this item to the search point
+					double distanceSquared;
 
 					/// The data associated with this QueueItem
 					T data;
