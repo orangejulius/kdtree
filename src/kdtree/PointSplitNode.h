@@ -2,12 +2,8 @@
 #define KDNODE_H
 
 #include <Eigen/Core>
-#include <iostream>
 
 #include "kdtree/NeighborList.h"
-
-using std::cout;
-using std::endl;
 
 using Eigen::Matrix;
 

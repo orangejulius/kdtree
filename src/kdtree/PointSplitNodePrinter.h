@@ -3,6 +3,8 @@
 
 #include <iostream>
 
+using std::endl;
+
 #include "PointSplitNode.h"
 
 namespace KDTree {
