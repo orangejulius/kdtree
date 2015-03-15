@@ -4,6 +4,7 @@
 #include <iostream>
 
 using std::endl;
+using std::ostream;
 
 #include "PointSplitNode.h"
 
@@ -11,7 +12,7 @@ namespace KDTree {
 	template <class T, int numAxes>
 	class PointSplitNodePrinter {
 		public:
-		void print(PointSplitNode<T, numAxes>* node, std::ostream &out) {
+		void print(PointSplitNode<T, numAxes>* node, ostream &out) {
 			if (node->getLeft()) {
 				print(node->getLeft(), out);
 			}
@@ -24,7 +25,7 @@ namespace KDTree {
 		}
 
 		private:
-		void print_current(PointSplitNode<T, numAxes>* node, std::ostream &out) {
+		void print_current(PointSplitNode<T, numAxes>* node, ostream &out) {
 			out<<"(";
 
 			for (int i = 0; i < numAxes; i++) {
