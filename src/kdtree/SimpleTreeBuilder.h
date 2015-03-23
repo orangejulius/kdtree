@@ -1,6 +1,10 @@
 #ifndef SIMPLETREEBUILDER_H
 #define SIMPLETREEBUILDER_H
 
+#include <Eigen/Core>
+
+using Eigen::Matrix;
+
 namespace KDTree {
 	template <class T, int numAxes>
 	struct Item {
