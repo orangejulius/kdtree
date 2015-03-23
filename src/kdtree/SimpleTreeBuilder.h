@@ -19,10 +19,37 @@ namespace KDTree {
 				if (items.size() == 0) {
 					return 0;
 				}
+				PointSplitNode<T, numAxes>* root = 0;
 
-				PointSplitNode<T, numAxes>* node = new PointSplitNode<T, numAxes>(items.front().item, items.front().point);
-				return node;
+				typename list<KDTree::Item<T, numAxes> >::iterator it;
+				for(it = items.begin(); it != items.end(); it++) {
+					PointSplitNode<T, numAxes>* node = new PointSplitNode<T, numAxes>(it->item, it->point);
+					if (root) {
+						recursiveInsert(root, node);
+					} else {
+						root = node;
+					}
+				}
+				return root;
 			};
+
+		private:
+			void recursiveInsert(PointSplitNode<T, numAxes>* root, PointSplitNode<T, numAxes>* node) {
+				if (node->getPoint()[0] > root->getPoint()[0]) {
+					if (root->getRight()) {
+						recursiveInsert(root->getRight(), node);
+					} else {
+						root->setRight(node);
+					}
+				} else {
+					if (root->getLeft()) {
+						recursiveInsert(root->getLeft(), node);
+					} else {
+						root->setLeft(node);
+					}
+				}
+			}
+
 	};
 }
 
