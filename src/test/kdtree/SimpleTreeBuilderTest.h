@@ -13,6 +13,7 @@ namespace KDTree {
 				TEST_ADD(SimpleTreeBuilderTest::builder_returns_null_pointer_from_empty_list);
 				TEST_ADD(SimpleTreeBuilderTest::builder_returns_single_node_from_one_item_list);
 				TEST_ADD(SimpleTreeBuilderTest::builder_returns_tree_from_three_item_list);
+				TEST_ADD(SimpleTreeBuilderTest::builder_alternates_comparison_axis_at_each_depth);
 			}
 
 		private:
@@ -69,6 +70,40 @@ namespace KDTree {
 						TEST_ASSERT(right->getPoint() == Vector2d(6, 7));
 						TEST_ASSERT(right->getLeft() == 0);
 						TEST_ASSERT(right->getRight() == 0);
+					}
+				}
+			}
+
+			void builder_alternates_comparison_axis_at_each_depth() {
+				SimpleTreeBuilder<int, 2> builder;
+				list<Item<int, 2> > items;
+				items.push_back(Item<int, 2>(1, Vector2d(4, 8)));
+				items.push_back(Item<int, 2>(2, Vector2d(5, 8)));
+				items.push_back(Item<int, 2>(3, Vector2d(6, 7)));
+
+				PointSplitNode<int, 2>* result = builder.build(items);
+
+				TEST_ASSERT(result);
+				if (result) {
+					TEST_ASSERT(result->getPoint() == Vector2d(4, 8));
+					TEST_ASSERT(result->getData() == 1);
+					TEST_ASSERT(result->getLeft() == 0);
+
+					PointSplitNode<int, 2>* right = result->getRight();
+					TEST_ASSERT(right);
+					if (right) {
+						TEST_ASSERT(right->getData() == 2);
+						TEST_ASSERT(right->getPoint() == Vector2d(5, 8));
+						TEST_ASSERT(right->getRight() == 0);
+
+						PointSplitNode<int, 2>* left = right->getLeft();
+						TEST_ASSERT(left);
+						if (left) {
+							TEST_ASSERT(left->getData() == 3);
+							TEST_ASSERT(left->getPoint() == Vector2d(6, 7));
+							TEST_ASSERT(left->getLeft() == 0);
+							TEST_ASSERT(left->getRight() == 0);
+						}
 					}
 				}
 			}

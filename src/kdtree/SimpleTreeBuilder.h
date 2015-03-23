@@ -34,16 +34,17 @@ namespace KDTree {
 			};
 
 		private:
-			void recursiveInsert(PointSplitNode<T, numAxes>* root, PointSplitNode<T, numAxes>* node) {
-				if (node->getPoint()[0] > root->getPoint()[0]) {
+			void recursiveInsert(PointSplitNode<T, numAxes>* root, PointSplitNode<T, numAxes>* node, int depth = 0) {
+				int axis = depth % numAxes;
+				if (node->getPoint()[axis] > root->getPoint()[axis]) {
 					if (root->getRight()) {
-						recursiveInsert(root->getRight(), node);
+						recursiveInsert(root->getRight(), node, depth + 1);
 					} else {
 						root->setRight(node);
 					}
 				} else {
 					if (root->getLeft()) {
-						recursiveInsert(root->getLeft(), node);
+						recursiveInsert(root->getLeft(), node, depth + 1);
 					} else {
 						root->setLeft(node);
 					}
