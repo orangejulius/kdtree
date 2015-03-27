@@ -43,32 +43,16 @@ list<Item<int, 2> > loadFile(int argc, char* argv[])
 	return items;
 }
 
-int main(int argc, char* argv[])
+void findNeighbors(PointSplitNode<int, 2>* root, list<Item<int, 2> > items)
 {
-	if (argc == 0) {
-		return 1;
-	}
-
-	list<Item<int, 2> > items = loadFile(argc, argv);
-
-	PointSplitNodePrinter<int, 2> printer;
-
-	SimpleTreeBuilder<int, 2> simple_builder;
-
-	PointSplitNode<int, 2>* simple_root = simple_builder.build(items);
-
-	MidpointTreeBuilder<int, 2> midpoint_builder;
-
-	PointSplitNode<int, 2>* midpoint_root = midpoint_builder.build(items);
-
 	NearestNeighborSearch<int, 2> search;
 	list<Item<int, 2> >::iterator itemIt;
 	for (itemIt = items.begin(); itemIt != items.end(); itemIt++) {
 		cout<<itemIt->item<<" ";
-		list<int> neighbors = search.search(*simple_root, itemIt->point, 4);
+		list<int> neighbors = search.search(*root, itemIt->point, 4);
 
 		list<int>::iterator it = neighbors.begin();
-		it++;
+		it++; // skip first neighbor, it is the point being searched
 		for(;it != neighbors.end(); it++) {
 			cout<<*it;
 			if (it != --neighbors.end()) {
@@ -77,6 +61,24 @@ int main(int argc, char* argv[])
 		}
 		cout<<endl;
 	}
+}
+
+int main(int argc, char* argv[])
+{
+	if (argc == 0) {
+		return 1;
+	}
+
+	list<Item<int, 2> > items = loadFile(argc, argv);
+	PointSplitNodePrinter<int, 2> printer;
+	SimpleTreeBuilder<int, 2> simple_builder;
+	MidpointTreeBuilder<int, 2> midpoint_builder;
+
+	PointSplitNode<int, 2>* simple_root = simple_builder.build(items);
+	PointSplitNode<int, 2>* midpoint_root = midpoint_builder.build(items);
+
+	findNeighbors(simple_root, items);
+	findNeighbors(midpoint_root, items);
 
 	return 0;
 }
