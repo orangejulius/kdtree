@@ -7,3 +7,4 @@ kdtreeTest
 libKDTree.so
 callgrind*
 cachegrind*
+nearest_neighbor

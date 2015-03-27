@@ -14,3 +14,5 @@ add_definitions(-O2 -ggdb)
 
 add_executable(kdtreeTest src/test/main.cpp)
 target_link_libraries(kdtreeTest cpptest)
+
+add_executable(nearest_neighbor src/examples/nearest_neighbor.cpp)
