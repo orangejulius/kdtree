@@ -1,16 +1,13 @@
 #ifndef SIMPLETREEBUILDER_H
 #define SIMPLETREEBUILDER_H
 
+#include <Eigen/Core>
+
+#include "Item.h"
+
+using Eigen::Matrix;
+
 namespace KDTree {
-	template <class T, int numAxes>
-	struct Item {
-		typedef Matrix<double, numAxes, 1> Point;
-		Item(T item, Point point): item(item), point(point) {};
-
-		T item;
-		Point point;
-	};
-
 	template <class T, int numAxes>
 	class SimpleTreeBuilder {
 		public:
