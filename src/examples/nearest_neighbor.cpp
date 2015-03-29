@@ -8,7 +8,7 @@
 #include "kdtree/PointSplitNode.h"
 #include "kdtree/SimpleTreeBuilder.h"
 #include "kdtree/MidpointTreeBuilder.h"
-#include "kdtree/PointSplitNodePrinter.h"
+#include "kdtree/Printer.h"
 #include "kdtree/NearestNeighborSearch.h"
 
 using namespace KDTree;
@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
 	}
 
 	list<Item<int, 2> > items = loadFile(argc, argv);
-	PointSplitNodePrinter<int, 2> printer;
+	Printer<int, 2> printer;
 	SimpleTreeBuilder<int, 2> simple_builder;
 	MidpointTreeBuilder<int, 2> midpoint_builder;
 

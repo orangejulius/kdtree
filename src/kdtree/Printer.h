@@ -1,5 +1,5 @@
-#ifndef KDNODEPRINTER_H
-#define KDNODEPRINTER_H
+#ifndef PRINTER_H
+#define PRINTER_H
 
 #include <iostream>
 
@@ -10,7 +10,7 @@ using std::ostream;
 
 namespace KDTree {
 	template <class T, int numAxes>
-	class PointSplitNodePrinter {
+	class Printer {
 		public:
 		void print(PointSplitNode<T, numAxes>* node, ostream &out) {
 			if (node->getLeft()) {
