@@ -2,6 +2,7 @@
 #include <fstream>
 #include <limits.h>
 #include <iostream>
+#include <sys/time.h>
 #include <vector>
 
 #include "kdtree/PointSplitNode.h"
@@ -12,6 +13,7 @@
 
 using namespace KDTree;
 
+using std::cerr;
 using std::cout;
 using std::endl;
 using std::ifstream;
@@ -63,6 +65,21 @@ void findNeighbors(PointSplitNode<int, 2>* root, list<Item<int, 2> > items)
 	}
 }
 
+void timeNearestNeighbor(PointSplitNode<int, 2>* tree, list<Item<int, 2> > items, char* name)
+{
+	struct timeval start;
+	gettimeofday(&start, 0);
+
+	findNeighbors(tree, items);
+
+	struct timeval end;
+	gettimeofday(&end, 0);
+
+	double elapsed = end.tv_sec - start.tv_sec + (end.tv_usec - start.tv_usec)/1e6;
+
+	cerr<<"search with "<<name<<" took "<<elapsed<<" seconds."<<endl;
+}
+
 int main(int argc, char* argv[])
 {
 	if (argc == 0) {
@@ -77,8 +94,8 @@ int main(int argc, char* argv[])
 	PointSplitNode<int, 2>* simple_root = simple_builder.build(items);
 	PointSplitNode<int, 2>* midpoint_root = midpoint_builder.build(items);
 
-	findNeighbors(simple_root, items);
-	findNeighbors(midpoint_root, items);
+	timeNearestNeighbor(simple_root, items, "simple tree");
+	timeNearestNeighbor(midpoint_root, items, "midpoint tree");
 
 	return 0;
 }
