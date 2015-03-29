@@ -65,7 +65,7 @@ void findNeighbors(PointSplitNode<int, 2>* root, list<Item<int, 2> > items)
 	}
 }
 
-void timeNearestNeighbor(PointSplitNode<int, 2>* tree, list<Item<int, 2> > items, char* name)
+void timeNearestNeighbor(PointSplitNode<int, 2>* tree, list<Item<int, 2> > items, const char* name)
 {
 	struct timeval start;
 	gettimeofday(&start, 0);
