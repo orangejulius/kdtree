@@ -35,6 +35,14 @@ namespace KDTree {
 				return right;
 			}
 
+			int getAxis() const {
+				return axis;
+			}
+
+			double getPartition() const {
+				return partition;
+			}
+
 			private:
 			PlaneSplitNode* left;
 			PlaneSplitNode* right;
