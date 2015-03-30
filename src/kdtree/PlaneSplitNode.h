@@ -43,6 +43,10 @@ namespace KDTree {
 				return partition;
 			}
 
+			list<Item<T, numAxes> > getItems() const {
+				return items;
+			}
+
 			private:
 			PlaneSplitNode* left;
 			PlaneSplitNode* right;

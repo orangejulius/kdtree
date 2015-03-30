@@ -31,7 +31,17 @@ namespace KDTree {
 				print(node->getLeft(), out);
 			}
 
-			out<<node->getAxis()<<" "<<node->getPartition()<<endl;
+			if(node->isLeaf() && node->getItems().size() > 0) {
+				list<Item<T, numAxes> > items = node->getItems();
+				typename list<Item<T, numAxes> >::iterator it;
+				for (it = items.begin(); it != items.end(); it++) {
+					out<<it->item<<" ";
+					print_point(it->point, out);
+				}
+				out<<endl;
+			} else {
+				out<<node->getAxis()<<" "<<node->getPartition()<<endl;
+			}
 
 			if (node->getRight()) {
 				print(node->getRight(), out);

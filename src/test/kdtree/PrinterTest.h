@@ -4,6 +4,7 @@
 #include "kdtree/Printer.h"
 
 using Eigen::Vector2d;
+using Eigen::Vector3d;
 
 namespace KDTree {
 	class PrinterTest : public Test::Suite {
@@ -14,6 +15,7 @@ namespace KDTree {
 				TEST_ADD(PrinterTest::node_prints_self_then_right_child);
 				TEST_ADD(PrinterTest::single_internal_node_prints_axis_and_partition);
 				TEST_ADD(PrinterTest::multiple_nodes_printed_inorder);
+				TEST_ADD(PrinterTest::leaf_node_prints_points);
 			}
 
 		private:
@@ -70,6 +72,19 @@ namespace KDTree {
 				printer.print(&root, out);
 
 				TEST_ASSERT(out.str() == "2 3\n1 4\n");
+			}
+
+			void leaf_node_prints_points() {
+				list<Item<int, 3> > items;
+				items.push_back(Item<int, 3>(1, Vector3d(2, 3, 4)));
+				items.push_back(Item<int, 3>(5, Vector3d(6, 7, 8)));
+				PlaneSplitNode<int, 3> node(items);
+				Printer<int, 3> printer;
+				std::ostringstream out;
+
+				printer.print(&node, out);
+
+				TEST_ASSERT(out.str() == "1 (2, 3, 4) 5 (6, 7, 8) \n");
 			}
 	};
 }
