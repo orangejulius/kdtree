@@ -12,6 +12,7 @@ using std::ostream;
 namespace KDTree {
 	template <class T, int numAxes>
 	class Printer {
+			typedef Matrix<double, numAxes, 1> Point;
 		public:
 		void print(PointSplitNode<T, numAxes>* node, ostream &out) {
 			if (node->getLeft()) {
@@ -39,17 +40,21 @@ namespace KDTree {
 
 		private:
 		void print_current(PointSplitNode<T, numAxes>* node, ostream &out) {
-			out<<"(";
+			print_point(node->getPoint(), out);
+			out<<node->getData()<<endl;
+		}
 
+		void print_point(Point p, ostream &out) {
+			out<<"(";
 			for (int i = 0; i < numAxes; i++) {
-				out<<node->getPoint()[i];
+				out<<p[i];
 				if (i + 1 < numAxes) {
 					out<<", ";
 				}
 			}
 			out<<") ";
-			out<<node->getData()<<endl;
 		}
+
 	};
 }
 
