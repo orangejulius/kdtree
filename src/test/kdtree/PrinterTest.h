@@ -12,6 +12,8 @@ namespace KDTree {
 				TEST_ADD(PrinterTest::single_node_prints_point_and_data);
 				TEST_ADD(PrinterTest::node_prints_left_child_then_self);
 				TEST_ADD(PrinterTest::node_prints_self_then_right_child);
+				TEST_ADD(PrinterTest::single_internal_node_prints_axis_and_partition);
+				TEST_ADD(PrinterTest::multiple_nodes_printed_inorder);
 			}
 
 		private:
@@ -47,6 +49,27 @@ namespace KDTree {
 				printer.print(&root, out);
 
 				TEST_ASSERT(out.str() == "(1, 2) 5\n(6, 3) 60\n");
+			}
+
+			void single_internal_node_prints_axis_and_partition() {
+				PlaneSplitNode<int, 2> root(1, 2);
+				Printer<int, 2> printer;
+				std::ostringstream out;
+
+				printer.print(&root, out);
+
+				TEST_ASSERT(out.str() == "1 2\n");
+			}
+
+			void multiple_nodes_printed_inorder() {
+				PlaneSplitNode<int, 2> left(2, 3);
+				PlaneSplitNode<int, 2> root(1, 4, &left);
+				Printer<int, 2> printer;
+				std::ostringstream out;
+
+				printer.print(&root, out);
+
+				TEST_ASSERT(out.str() == "2 3\n1 4\n");
 			}
 	};
 }

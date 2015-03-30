@@ -6,6 +6,7 @@
 using std::endl;
 using std::ostream;
 
+#include "PlaneSplitNode.h"
 #include "PointSplitNode.h"
 
 namespace KDTree {
@@ -18,6 +19,18 @@ namespace KDTree {
 			}
 
 			print_current(node, out);
+
+			if (node->getRight()) {
+				print(node->getRight(), out);
+			}
+		}
+
+		void print(PlaneSplitNode<T, numAxes>* node, ostream &out) {
+			if (node->getLeft()) {
+				print(node->getLeft(), out);
+			}
+
+			out<<node->getAxis()<<" "<<node->getPartition()<<endl;
 
 			if (node->getRight()) {
 				print(node->getRight(), out);
