@@ -18,5 +18,5 @@ int main() {
 	ts.add(std::auto_ptr<Test::Suite>(new SimpleTreeBuilderTest));
 
 	Test::TextOutput output(Test::TextOutput::Verbose);
-	return ts.run(output);
+	return !ts.run(output);
 }
