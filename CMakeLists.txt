@@ -12,7 +12,9 @@ include_directories(
 
 add_definitions(-O2 -ggdb)
 
+enable_testing()
 add_executable(kdtreeTest src/test/main.cpp)
 target_link_libraries(kdtreeTest cpptest)
+add_test(NAME kdtreeTest COMMAND kdtreeTest)
 
 add_executable(nearest_neighbor src/examples/nearest_neighbor.cpp)
