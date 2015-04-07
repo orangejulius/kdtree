@@ -32,8 +32,7 @@ namespace KDTree {
 			};
 
 			PlaneSplitNode<T, numAxes>* build_plane_split(list<Item<T, numAxes> > items, unsigned int maxLeafSize) {
-				PlaneSplitNode<T, numAxes>* node = new PlaneSplitNode<T, numAxes>(items);
-				return node;
+				return recursive_insert(items, maxLeafSize);
 			}
 
 		private:
@@ -50,6 +49,32 @@ namespace KDTree {
 						recursiveInsert(root->getLeft(), node, depth + 1);
 					} else {
 						root->setLeft(node);
+					}
+				}
+			}
+
+			PlaneSplitNode<T, numAxes>* recursive_insert(list<Item<T, numAxes> > items, unsigned int maxLeafSize, int depth = 0) {
+				if (items.size() <= maxLeafSize) {
+					return new PlaneSplitNode<T, numAxes>(items);
+				} else {
+					int axis = depth % numAxes;
+					double partition = items.begin()->point[axis];
+					list<Item<T, numAxes> > leftItems;
+					list<Item<T, numAxes> > rightItems;
+					partition_items(axis, partition, items, leftItems, rightItems);
+					PlaneSplitNode<T, numAxes>* left = recursive_insert(leftItems, maxLeafSize, depth + 1);
+					PlaneSplitNode<T, numAxes>* right = recursive_insert(rightItems, maxLeafSize, depth + 1);
+					return new PlaneSplitNode<T, numAxes>(axis, partition, left, right);
+				}
+			}
+
+			void partition_items(int axis, double partition, const list<Item<T, numAxes> > items, list<Item<T, numAxes > > &left, list<Item<T, numAxes> > &right) {
+				typename list<Item<T, numAxes> >::const_iterator it;
+				for(it = items.begin(); it != items.end(); it++) {
+					if (it->point[axis] >= partition) {
+						right.push_back(*it);
+					} else {
+						left.push_back(*it);
 					}
 				}
 			}
