@@ -14,6 +14,7 @@ namespace KDTree {
 				TEST_ADD(SimpleTreeBuilderTest::builder_returns_single_node_from_one_item_list);
 				TEST_ADD(SimpleTreeBuilderTest::builder_returns_tree_from_three_item_list);
 				TEST_ADD(SimpleTreeBuilderTest::builder_alternates_comparison_axis_at_each_depth);
+				TEST_ADD(SimpleTreeBuilderTest::plane_split_builder_returns_leaf_node_for_one_item_array);
 			}
 
 		private:
@@ -105,6 +106,22 @@ namespace KDTree {
 							TEST_ASSERT(left->getRight() == 0);
 						}
 					}
+				}
+			}
+
+			void plane_split_builder_returns_leaf_node_for_one_item_array() {
+				SimpleTreeBuilder<int, 2> builder;
+				list<Item<int, 2> > items;
+				items.push_back(Item<int, 2>(10, Vector2d(2, 3)));
+
+				PlaneSplitNode<int, 2>* result = builder.build_plane_split(items, 5);
+				TEST_ASSERT(result);
+				if (result) {
+					TEST_ASSERT(result->getPartition() == 0.0);
+					TEST_ASSERT(result->getAxis() == 0);
+					TEST_ASSERT(result->getItems() == items);
+					TEST_ASSERT(result->getLeft() == 0);
+					TEST_ASSERT(result->getRight() == 0);
 				}
 			}
 

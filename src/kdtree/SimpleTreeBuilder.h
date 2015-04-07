@@ -4,6 +4,7 @@
 #include <Eigen/Core>
 
 #include "Item.h"
+#include "kdtree/PlaneSplitNode.h"
 
 using Eigen::Matrix;
 
@@ -29,6 +30,11 @@ namespace KDTree {
 				}
 				return root;
 			};
+
+			PlaneSplitNode<T, numAxes>* build_plane_split(list<Item<T, numAxes> > items, unsigned int maxLeafSize) {
+				PlaneSplitNode<T, numAxes>* node = new PlaneSplitNode<T, numAxes>(items);
+				return node;
+			}
 
 		private:
 			void recursiveInsert(PointSplitNode<T, numAxes>* root, PointSplitNode<T, numAxes>* node, int depth = 0) {
