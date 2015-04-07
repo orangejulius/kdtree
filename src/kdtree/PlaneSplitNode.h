@@ -19,6 +19,8 @@ namespace KDTree {
 
 			// constructor for leaf node
 			PlaneSplitNode(list<Item<T, numAxes> > items): items(items) {
+				partition = 0.0;
+				axis = 0;
 				left = 0;
 				right = 0;
 			}
