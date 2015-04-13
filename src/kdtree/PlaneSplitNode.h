@@ -2,10 +2,12 @@
 #define PLANESPLITNODE_H
 
 #include <Eigen/Core>
+#include <list>
 
 #include "kdtree/Item.h"
 
 using Eigen::Matrix;
+using std::list;
 
 namespace KDTree {
 	template<class T, int numAxes>
