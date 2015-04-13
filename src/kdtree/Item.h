@@ -13,6 +13,9 @@ namespace KDTree {
 
 		T item;
 		Point point;
+		bool operator==(const Item<T, numAxes> other) const {
+			return item == other.item && point == other.point;
+		}
 	};
 }
 #endif
