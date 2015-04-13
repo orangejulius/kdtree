@@ -129,11 +129,16 @@ int main(int argc, char* argv[])
 
 	PointSplitNode<int, 2>* simple_root = simple_builder.build(items);
 	PointSplitNode<int, 2>* midpoint_root = midpoint_builder.build(items);
-	PlaneSplitNode<int, 2>* simple_plane_split_root = simple_builder.build_plane_split(items, 5);
+	PlaneSplitNode<int, 2>* simple_plane_split_root;
 
 	timeNearestNeighbor(simple_root, items, "simple tree");
 	timeNearestNeighbor(midpoint_root, items, "midpoint tree");
-	timeNearestNeighbor(simple_plane_split_root, items, "simple plane split tree");
+
+	for (int i = 3; i < 20; i++) {
+		simple_plane_split_root = simple_builder.build_plane_split(items, i);
+		cerr<<"creating tree with max items "<<i<<endl;
+		timeNearestNeighbor(simple_plane_split_root, items, "simple plane split tree");
+	}
 
 	return 0;
 }
