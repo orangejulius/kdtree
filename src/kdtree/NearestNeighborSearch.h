@@ -1,6 +1,7 @@
 #ifndef NEARESTNEIGHBORSEARCH_H
 #define NEARESTNEIGHBORSEARCH_H
 
+#include "PlaneSplitNode.h"
 #include "PointSplitNode.h"
 
 using std::list;
@@ -18,6 +19,14 @@ namespace KDTree {
 
 				return results.getList();
 			};
+
+			list<T> search(const PlaneSplitNode<T, numAxes> tree, Point searchPoint, int numResults = 1) {
+				NeighborList<T> results(numResults);
+
+				recursiveSearch(results, &tree, searchPoint);
+
+				return results.getList();
+			}
 
 		private:
 			void recursiveSearch(NeighborList<T>& results, const PointSplitNode<T, numAxes>* tree, Point searchPoint, int depth = 0) {
@@ -49,6 +58,45 @@ namespace KDTree {
 					}
 				}
 			};
+
+			void recursiveSearch(NeighborList<T>& results, const PlaneSplitNode<T, numAxes>* tree, Point searchPoint, int depth = 0) {
+				if (tree->getItems().size() > 0) { // leaf node
+					typename list<KDTree::Item<T, numAxes> >::const_iterator it;
+					int i = 0;
+					list<Item<T, numAxes> > items = tree->getItems();
+					for(it = items.begin(); it != items.end(); it++) {
+						Point point = it->point;
+						double squaredDistance = (point - searchPoint).squaredNorm();
+						results.testNeighbor(it->item, squaredDistance);
+						i++;
+					}
+				} else { // internal node
+					PlaneSplitNode<T, numAxes>* nearChild = 0;
+					PlaneSplitNode<T, numAxes>* farChild = 0;
+
+					int axis = tree->getAxis();
+					double partition = tree->getPartition();
+					if (searchPoint[axis] > partition) {
+						nearChild = tree->getRight();
+						farChild = tree->getLeft();
+					} else {
+						nearChild = tree->getLeft();
+						farChild = tree->getRight();
+					}
+
+					if (nearChild) {
+						recursiveSearch(results, nearChild, searchPoint, depth + 1);
+					}
+
+					if (farChild) {
+						double hyperSphereRadius = searchPoint[axis] - partition;
+						double radiusSquared = hyperSphereRadius * hyperSphereRadius;
+						if (radiusSquared < results.getLargestDistanceSquared()) {
+							recursiveSearch(results, farChild, searchPoint, depth + 1);
+						}
+					}
+				}
+			}
 	};
 }
 
