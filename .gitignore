@@ -1,8 +1,9 @@
 *kdev*
 CMakeCache.txt
 CMakeFiles
+Testing
 Makefile
-cmake_install.cmake
+*.cmake
 kdtreeTest
 libKDTree.so
 callgrind*
